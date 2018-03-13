@@ -20,7 +20,7 @@
             </thead>
 
             <tbody>
-                <tr v-for="item in items">
+                <tr v-for="item in items" :key="item.id" >
                     <td>{{ item._id }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.price }}</td>
@@ -33,33 +33,29 @@
 </template>
 
 <script>
+export default {
+  data() {
+    return {
+      items: []
+    };
+  },
 
-    export default {
-        data(){
-            return{
-                items: []
-            }
-        },
+  created: function() {
+    this.fetchItems();
+  },
 
-        created: function()
-        {
-            this.fetchItems();
-        },
-
-        methods: {
-            fetchItems()
-            {
-              let uri = 'http://localhost:4000/items';
-              this.axios.get(uri).then((response) => {
-                  this.items = response.data;
-              });
-            },
-            deleteItem(id)
-            {
-              let uri = 'http://localhost:4000/items/delete/'+id;
-              this.items.splice(id, 1);
-              this.axios.get(uri);
-            }
-        }
+  methods: {
+    fetchItems() {
+      let uri = "http://localhost:4000/items";
+      this.axios.get(uri).then(response => {
+        this.items = response.data;
+      });
+    },
+    deleteItem(id) {
+      let uri = "http://localhost:4000/items/delete/" + id;
+      this.items.splice(id, 1);
+      this.axios.get(uri);
     }
+  }
+};
 </script>
